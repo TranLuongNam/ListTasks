@@ -1,6 +1,7 @@
 import {
   ADD_TASK,
   CLOSE_FORM,
+  DELETE_TASK,
   LIST_ALL,
   OPEN_FORM,
   TOGGLE_FORM,
@@ -39,6 +40,12 @@ export const openForm = () => {
 export const updateStatus = (id) => {
   return {
     type: UPDATE_STATUS_TASK,
+    id: id,
+  };
+};
+export const deleteTask = (id) => {
+  return {
+    type: DELETE_TASK,
     id: id,
   };
 };

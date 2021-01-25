@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateStatus } from "../actions";
+import { closeForm, deleteTask, updateStatus } from "../actions";
 
 class TaskItem extends Component {
   onUpdateStatus = () => {
     this.props.onUpdateStatus(this.props.task.id);
   };
   onDelete = () => {
-    this.props.onDelete(this.props.task.id);
+    this.props.deleteTask(this.props.task.id);
+    this.props.onCloseForm();
   };
   onUpdate = () => {
     this.props.onUpdate(this.props.task.id);
@@ -53,14 +54,18 @@ class TaskItem extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    state,
-  };
+  return {};
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
     onUpdateStatus: (id) => {
       dispatch(updateStatus(id));
+    },
+    deleteTask: (id) => {
+      dispatch(deleteTask(id));
+    },
+    onCloseForm: () => {
+      dispatch(closeForm());
     },
   };
 };

@@ -1,5 +1,6 @@
 import {
   ADD_TASK,
+  DELETE_TASK,
   LIST_ALL,
   UPDATE_STATUS_TASK,
 } from "../constans/ActionTypes";
@@ -42,12 +43,22 @@ export const TasksReducer = (state = inittialState, action) => {
       return [...state];
     }
     case UPDATE_STATUS_TASK: {
-      console.log(action);
+      // console.log(action);
       const id = action.id;
       const index = findIndex(state, id);
-      state[index].status = !state[index].status;
+      state[index] = {
+        ...state[index],
+        status: !state[index].status,
+      };
       localStorage.setItem("tasks", JSON.stringify(state));
 
+      return [...state];
+    }
+    case DELETE_TASK: {
+      const id = action.id;
+      const index = findIndex(state, id);
+      state.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(state));
       return [...state];
     }
     default:
