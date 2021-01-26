@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import Control from "./components/Control";
+import TaskControl from "./components/TaskControl";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import { connect } from "react-redux";
@@ -71,7 +71,8 @@ class App extends Component {
   render() {
     var { filter, keyword, sort } = this.state;
     var { isDisplayForm } = this.props;
-    // if (filter) {
+
+ 
     // if (sort.by === "name") {
     //   tasks.sort((a, b) => {
     //     if (a.name > b.name) {
@@ -92,15 +93,6 @@ class App extends Component {
     //     } else {
     //       return 0;
     //     }
-    //   });
-    // }
-    // if (keyword) {
-    //   // tasks = tasks.filter((task) => {
-    //   //   return (task = task.name.toLowerCase().indexOf(keyword) !== -1);
-    //   // });
-    //   tasks = filter(tasks, (task) => {
-    //     /* use third-party :lodash */
-    //     return (task.name = task.name.toLowerCase().indexOf(keyword) !== -1);
     //   });
     // }
 
@@ -135,7 +127,7 @@ class App extends Component {
                 Thêm Công Việc
               </button>
 
-              <Control
+              <TaskControl
                 onSearch={this.onSearch}
                 onSort={this.onSort}
                 sort={sort}

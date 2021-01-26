@@ -6,6 +6,7 @@ import {
   LIST_ALL,
   OPEN_FORM,
   SAVE_TASK,
+  SEARCH_TASK,
   UPDATE_STATUS_TASK,
 } from "../constans/ActionTypes";
 
@@ -59,5 +60,11 @@ export const filterTable = (filter) => {
   return {
     type: FILTER_TABLE,
     filter,
+  };
+};
+export const searchTask = (keyword) => {
+  return {
+    type: SEARCH_TASK,
+    keyword,
   };
 };

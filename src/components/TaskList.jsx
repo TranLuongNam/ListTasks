@@ -25,23 +25,30 @@ class TaskList extends Component {
     });
   };
   render() {
-    var { tasks, FilterTable } = this.props;
+    var { tasks, FilterTable,keyword } = this.props;
     var { filterName, filterStatus } = this.state;
-     // filter on table
-     if(FilterTable.name){
+    //search 
+    tasks = tasks.filter((task) => {
+      return (
+        task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+      );
+    });
+    // filter on table
+    if (FilterTable.name) {
       tasks = tasks.filter((task) => {
-          return task.name.toLowerCase().indexOf(FilterTable.name.toLowerCase()) !== -1
+        return (
+          task.name.toLowerCase().indexOf(FilterTable.name.toLowerCase()) !== -1
+        );
       });
-  }
+    }
 
-  tasks = tasks.filter((task) => {
-      if(FilterTable.status === -1){
-          return task;
-      }else{
-          return task.status
-          === (FilterTable.status === 1 ? true : false);
+    tasks = tasks.filter((task) => {
+      if (FilterTable.status === -1) {
+        return task;
+      } else {
+        return task.status === (FilterTable.status === 1 ? true : false);
       }
-  });
+    });
 
     var elmTasks = tasks.map((task, index) => {
       return <TaskItem key={task.id} index={index} task={task} />;
@@ -93,6 +100,7 @@ const mapStateToProps = (state) => {
   return {
     tasks: state.tasks,
     FilterTable: state.FilterTable,
+    keyword: state.SearchTask,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {

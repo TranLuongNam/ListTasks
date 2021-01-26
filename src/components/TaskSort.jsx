@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Sort extends Component {
+class TaskSort extends Component {
   onClick = (by, value) => {
     // console.log(sortValue, sortBy);
     this.props.onSort(by, value);
@@ -86,4 +86,4 @@ class Sort extends Component {
   }
 }
 
-export default Sort;
+export default TaskSort;
