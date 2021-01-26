@@ -4,13 +4,12 @@ import Control from "./components/Control";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import { connect } from "react-redux";
-import { toggleForm } from "./actions";
+import { editTask, openForm } from "./actions";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      taskEditing: null,
       filter: {
         name: "",
         status: -1,
@@ -23,8 +22,13 @@ class App extends Component {
     };
   }
 
-  onToggleForm = () => {
-    this.props.onToggleForm();
+  onChangeForm = () => {
+    this.props.onOpenForm();
+    this.props.onClearTask({
+      id: "",
+      name: "",
+      status: false,
+    });
   };
 
   findIndex = (id) => {
@@ -38,15 +42,6 @@ class App extends Component {
     return result;
   };
 
-  onUpdate = (id) => {
-    var { tasks } = this.state;
-    var index = this.findIndex(id);
-    var taskEditing = tasks[index];
-    this.setState({
-      taskEditing: taskEditing,
-    });
-    this.onShowForm();
-  };
   onFilter = (filterName, filterStatus) => {
     // console.log(filterName, filterStatus);.
     filterStatus = +filterStatus;
@@ -74,22 +69,9 @@ class App extends Component {
   };
 
   render() {
-    var { taskEditing, filter, keyword, sort } = this.state;
+    var { filter, keyword, sort } = this.state;
     var { isDisplayForm } = this.props;
     // if (filter) {
-    //   if (filter.name) {
-    //     tasks = tasks.filter((task) => {
-    //       return (task = task.name.toLowerCase().indexOf(filter.name) !== -1);
-    //     });
-    //   }
-    //   // tasks = tasks.filter((task) => {
-    //   //   if (filter.status === -1) {
-    //   //     return task;
-    //   //   } else {
-    //   //     return task.status === (filter.status === 1 ? true : false);
-    //   //   }
-    //   // });
-    // }
     // if (sort.by === "name") {
     //   tasks.sort((a, b) => {
     //     if (a.name > b.name) {
@@ -121,11 +103,7 @@ class App extends Component {
     //     return (task.name = task.name.toLowerCase().indexOf(keyword) !== -1);
     //   });
     // }
-    var elmTaskForm = isDisplayForm ? (
-      <TaskForm taskEdit={taskEditing} />
-    ) : (
-      ""
-    );
+
     return (
       <div classname="App">
         <div className="container">
@@ -139,7 +117,7 @@ class App extends Component {
                 isDisplayForm ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""
               }
             >
-              {elmTaskForm}
+              <TaskForm />
             </div>
             <div
               className={
@@ -151,7 +129,7 @@ class App extends Component {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={this.onToggleForm}
+                onClick={this.onChangeForm}
               >
                 <span className="fa fa-plus mr-5" />
                 Thêm Công Việc
@@ -164,10 +142,7 @@ class App extends Component {
               />
               <div className="row mt-15">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <TaskList
-                    onUpdate={this.onUpdate}
-                    onFilter={this.onFilter}
-                  />
+                  <TaskList />
                 </div>
               </div>
             </div>
@@ -181,12 +156,19 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     isDisplayForm: state.isDisplayForm,
+    ItemEdit: state.ItemEdit,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onToggleForm: () => {
-      dispatch(toggleForm());
+    // onToggleForm: () => {
+    //   dispatch(toggleForm());
+    // },
+    onClearTask: (task) => {
+      dispatch(editTask(task));
+    },
+    onOpenForm: () => {
+      dispatch(openForm());
     },
   };
 };

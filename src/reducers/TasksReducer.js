@@ -1,7 +1,7 @@
 import {
-  ADD_TASK,
   DELETE_TASK,
   LIST_ALL,
+  SAVE_TASK,
   UPDATE_STATUS_TASK,
 } from "../constans/ActionTypes";
 
@@ -32,13 +32,19 @@ export const TasksReducer = (state = inittialState, action) => {
     case LIST_ALL: {
       return state;
     }
-    case ADD_TASK: {
-      const newTask = {
-        id: randomID(),
+    case SAVE_TASK: {
+      const task = {
+        id: action.task.id,
         name: action.task.name,
         status: action.task.status === true ? true : false,
       };
-      state.push(newTask);
+      if (!task.id) {
+        task.id = randomID();
+        state.push(task);
+      } else {
+        const index = findIndex(state, task.id);
+        state[index] = task;
+      }
       localStorage.setItem("tasks", JSON.stringify(state));
       return [...state];
     }

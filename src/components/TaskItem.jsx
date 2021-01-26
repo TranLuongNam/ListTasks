@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { closeForm, deleteTask, updateStatus } from "../actions";
+import {
+  closeForm,
+  deleteTask,
+  editTask,
+  openForm,
+  updateStatus,
+} from "../actions";
 
 class TaskItem extends Component {
   onUpdateStatus = () => {
@@ -11,7 +17,9 @@ class TaskItem extends Component {
     this.props.onCloseForm();
   };
   onUpdate = () => {
-    this.props.onUpdate(this.props.task.id);
+    // console.log(this.props.task);
+    this.props.onOpenForm(this.props.task.id);
+    this.props.onEditTask(this.props.task);
   };
   render() {
     var { task, index } = this.props;
@@ -54,7 +62,9 @@ class TaskItem extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+
+  };
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
@@ -66,6 +76,12 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onCloseForm: () => {
       dispatch(closeForm());
+    },
+    onOpenForm: () => {
+      dispatch(openForm());
+    },
+    onEditTask: (task) => {
+      dispatch(editTask(task));
     },
   };
 };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTask, closeForm } from "../actions";
+import { closeForm, saveTask } from "../actions";
 
 class TaskForm extends Component {
   constructor(props) {
@@ -12,22 +12,24 @@ class TaskForm extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.taskEdit) {
+    if (this.props.ItemEdit) {
       this.setState({
-        id: this.props.taskEdit.id,
-        name: this.props.taskEdit.name,
-        status: this.props.taskEdit.status,
+        id: this.props.ItemEdit.id,
+        name: this.props.ItemEdit.name,
+        status: this.props.ItemEdit.status,
       });
+    } else {
+      this.onClear();
     }
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.taskEdit) {
+    if (nextProps && nextProps.ItemEdit) {
       this.setState({
-        id: nextProps.taskEdit.id,
-        name: nextProps.taskEdit.name,
-        status: nextProps.taskEdit.status,
+        id: nextProps.ItemEdit.id,
+        name: nextProps.ItemEdit.name,
+        status: nextProps.ItemEdit.status,
       });
-    } else if (!nextProps.taskEdit) {
+    } else if (!nextProps.ItemEdit) {
       this.setState({
         id: "",
         name: "",
@@ -50,9 +52,9 @@ class TaskForm extends Component {
       [name]: value,
     });
   };
-  onSubmit = (e) => {
+  onSave = (e) => {
     e.preventDefault();
-    this.props.onAddTask(this.state);
+    this.props.onSaveTask(this.state);
     this.onClear();
     this.onCloseForm();
   };
@@ -64,11 +66,14 @@ class TaskForm extends Component {
   };
   render() {
     const { id } = this.state;
+    if (!this.props.isDisplayForm) {
+      return "";
+    }
     return (
       <div className="panel panel-warning">
         <div className="panel-heading">
           <h3 className="panel-title">
-            {id !== "" ? "Cập Nhật Công Việc" : "Thêm Công Việc"}
+            {!id ? "Thêm Công Việc" : "Cập Nhật Công Việc"}
             <span
               className="fa fa-times-circle text-right "
               onClick={this.onCloseForm}
@@ -76,7 +81,7 @@ class TaskForm extends Component {
           </h3>
         </div>
         <div className="panel-body">
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSave}>
             <div className="form-group">
               <label>Tên :</label>
               <input
@@ -118,14 +123,20 @@ class TaskForm extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    isDisplayForm: state.isDisplayForm,
+    ItemEdit: state.ItemEdit,
+  };
+};
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onAddTask: (task) => {
-      dispatch(addTask(task));
+    onSaveTask: (task) => {
+      dispatch(saveTask(task));
     },
     onCloseForm: () => {
       dispatch(closeForm());
     },
   };
 };
-export default connect(null, mapDispatchToProps)(TaskForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);

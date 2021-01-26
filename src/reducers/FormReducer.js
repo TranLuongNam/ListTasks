@@ -8,12 +8,10 @@ export const FormReducer = (state = inittialState, action) => {
       return !state;
     }
     case OPEN_FORM: {
-      state = true;
-      return state;
+      return true;
     }
     case CLOSE_FORM: {
-      state = false;
-      return state;
+      return false;
     }
     default:
       return state;
