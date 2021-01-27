@@ -7,6 +7,7 @@ import {
   OPEN_FORM,
   SAVE_TASK,
   SEARCH_TASK,
+  SORT_TASK,
   UPDATE_STATUS_TASK,
 } from "../constans/ActionTypes";
 
@@ -66,5 +67,11 @@ export const searchTask = (keyword) => {
   return {
     type: SEARCH_TASK,
     keyword,
+  };
+};
+export const sortTask = (sort) => {
+  return {
+    type: SORT_TASK,
+    sort,
   };
 };

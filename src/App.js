@@ -7,21 +7,6 @@ import { connect } from "react-redux";
 import { editTask, openForm } from "./actions";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      filter: {
-        name: "",
-        status: -1,
-      },
-      keyword: "",
-      sort: {
-        by: "name",
-        value: 1,
-      },
-    };
-  }
-
   onChangeForm = () => {
     this.props.onOpenForm();
     this.props.onClearTask({
@@ -30,18 +15,6 @@ class App extends Component {
       status: false,
     });
   };
-
-  findIndex = (id) => {
-    var { tasks } = this.state;
-    var result = -1;
-    tasks.forEach((task, index) => {
-      if (task.id === id) {
-        result = index;
-      }
-    });
-    return result;
-  };
-
   onFilter = (filterName, filterStatus) => {
     // console.log(filterName, filterStatus);.
     filterStatus = +filterStatus;
@@ -50,12 +23,6 @@ class App extends Component {
         name: filterName.toLowerCase(),
         status: filterStatus,
       },
-    });
-  };
-
-  onSearch = (keyword) => {
-    this.setState({
-      keyword: keyword,
     });
   };
   onSort = async (by, value) => {
@@ -69,32 +36,7 @@ class App extends Component {
   };
 
   render() {
-    var { filter, keyword, sort } = this.state;
     var { isDisplayForm } = this.props;
-
- 
-    // if (sort.by === "name") {
-    //   tasks.sort((a, b) => {
-    //     if (a.name > b.name) {
-    //       return sort.value;
-    //     } else if (a.name < b.name) {
-    //       return -sort.value;
-    //     } else {
-    //       return 0;
-    //     }
-    //   });
-    // }
-    // if (sort.by === "status") {
-    //   tasks.sort((a, b) => {
-    //     if (a.status > b.status) {
-    //       return -sort.value;
-    //     } else if (a.status < b.status) {
-    //       return sort.value;
-    //     } else {
-    //       return 0;
-    //     }
-    //   });
-    // }
 
     return (
       <div classname="App">
@@ -127,11 +69,7 @@ class App extends Component {
                 Thêm Công Việc
               </button>
 
-              <TaskControl
-                onSearch={this.onSearch}
-                onSort={this.onSort}
-                sort={sort}
-              />
+              <TaskControl />
               <div className="row mt-15">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <TaskList />
@@ -153,9 +91,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    // onToggleForm: () => {
-    //   dispatch(toggleForm());
-    // },
     onClearTask: (task) => {
       dispatch(editTask(task));
     },

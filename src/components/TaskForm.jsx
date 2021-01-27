@@ -48,6 +48,8 @@ class TaskForm extends Component {
     if (name === "status") {
       value = target.value === "true" ? true : false;
     }
+    // console.log(value);
+    // console.log(typeof value);
     this.setState({
       [name]: value,
     });
@@ -114,7 +116,7 @@ class TaskForm extends Component {
                 className="btn btn-danger"
                 onClick={this.onClear}
               >
-                Hủy Bỏ
+                Hủy bỏ
               </button>
             </div>
           </form>

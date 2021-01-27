@@ -3,6 +3,7 @@ import { FilterTable } from "./FilterTable";
 import { FormReducer } from "./FormReducer";
 import { ItemEdit } from "./ItemEdit";
 import SearchTask from "./SearchTask";
+import SortTask from "./SortTask";
 import { TasksReducer } from "./TasksReducer";
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   ItemEdit: ItemEdit,
   FilterTable: FilterTable,
   SearchTask: SearchTask,
+  SortTask: SortTask,
 });
 
 export default rootReducer;

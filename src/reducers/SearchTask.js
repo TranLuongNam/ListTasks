@@ -5,7 +5,7 @@ const initialState = "";
 const SearchTask = (state = initialState, action) => {
   switch (action.type) {
     case SEARCH_TASK: {
-      console.log(action.keyword);
+      // console.log(action.keyword);
       return action.keyword;
     }
     default: {

@@ -1,12 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import {  sortTask } from "../actions";
 
 class TaskSort extends Component {
-  onClick = (by, value) => {
-    // console.log(sortValue, sortBy);
-    this.props.onSort(by, value);
-  };
+  onClick = (sortBy, sortValue) => {
+    this.props.onSort({
+        by : sortBy,
+        value : sortValue
+    });
+}
   render() {
-    const { sort } = this.props;
+    const { sortTask } = this.props;
+    // console.log(sortTask);
     return (
       <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div className="dropdown">
@@ -22,17 +27,12 @@ class TaskSort extends Component {
           </button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li onClick={() => this.onClick("name", 1)}>
-              <a
-                role="button"
-                // className={
-                //   sort.by === "name" && sort.value === 1 ? "<i class=fas fa-check-square></i>" : ""
-                // }
-              >
+              <a role="button">
                 <span className="fa fa-sort-alpha-asc pr-5">
                   Tên A-Z
                   <i
                     className={
-                      sort.by === "name" && sort.value === 1
+                      sortTask.by === "name" && sortTask.value === 1
                         ? "fas fa-check float-right"
                         : ""
                     }
@@ -46,7 +46,7 @@ class TaskSort extends Component {
                   Tên Z-A
                   <i
                     className={
-                      sort.by === "name" && sort.value === -1
+                      sortTask.by === "name" && sortTask.value === -1
                         ? "fas fa-check float-right"
                         : ""
                     }
@@ -60,7 +60,7 @@ class TaskSort extends Component {
                 Trạng Thái Kích Hoạt
                 <i
                   className={
-                    sort.by === "status" && sort.value === 1
+                    sortTask.by === "status" && sortTask.value === 1
                       ? "fas fa-check float-right"
                       : ""
                   }
@@ -72,7 +72,7 @@ class TaskSort extends Component {
                 Trạng Thái Ẩn
                 <i
                   className={
-                    sort.by === "status" && sort.value === -1
+                    sortTask.by === "status" && sortTask.value === -1
                       ? "fas fa-check float-right"
                       : ""
                   }
@@ -85,5 +85,16 @@ class TaskSort extends Component {
     );
   }
 }
-
-export default TaskSort;
+const mapStateToProps = (state) => {
+  return {
+    sortTask: state.SortTask,
+  };
+};
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onSort: (sort) => {
+      dispatch(sortTask(sort));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TaskSort);
